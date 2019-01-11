@@ -29,28 +29,30 @@ object StructuredWriteMysql {
 
     val result = spark.sql("select a[0] as name, a[1] as age, a[2] as sex,a[3] as uuid from tmp2")
 
-    val query = result.writeStream.foreach(new ForeachWriter[Row] {
 
-      var conn: Connection = ConnectionPool.getConnection.get
+    val query = result.writeStream
+      .foreach(new ForeachWriter[Row] {
 
-      override def open(partitionId: Long, epochId: Long): Boolean = {
-        true
-      }
+        var conn: Connection = ConnectionPool.getConnection.get
 
-      override def process(value: Row): Unit = {
-        val p = conn.prepareStatement("replace into people(name,age,sex,uuid) values(?,?,?,?)")
-        p.setString(1, value(0).toString)
-        p.setString(2, value(1).toString)
-        p.setString(3, value(2).toString)
-        p.setString(4, value(3).toString)
-        p.execute()
-      }
+        override def open(partitionId: Long, epochId: Long): Boolean = {
+          true
+        }
 
-      override def close(errorOrNull: Throwable): Unit = {
-      }
+        override def process(value: Row): Unit = {
+          val p = conn.prepareStatement("replace into people(name,age,sex,uuid) values(?,?,?,?)")
+          p.setString(1, value(0).toString)
+          p.setString(2, value(1).toString)
+          p.setString(3, value(2).toString)
+          p.setString(4, value(3).toString)
+          p.execute()
+        }
 
-      conn.close()
-    }).start()
+        override def close(errorOrNull: Throwable): Unit = {
+        }
+
+        conn.close()
+      }).start()
 
     query.awaitTermination()
   }
