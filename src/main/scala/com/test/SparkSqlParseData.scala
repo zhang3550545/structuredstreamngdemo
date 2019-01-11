@@ -4,7 +4,7 @@ import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 
 
-object Test {
+object SparkSqlParseData {
 
   def main(args: Array[String]): Unit = {
 
@@ -12,7 +12,7 @@ object Test {
 
     val spark = SparkSession.builder()
       .master("local")
-      .appName("Test")
+      .appName("SparkSqlParseData")
       .getOrCreate()
 
     val lines = spark.readStream
@@ -20,9 +20,6 @@ object Test {
       .option("host", "localhost")
       .option("port", 9998)
       .load()
-
-    import spark.implicits._
-
 
     lines.createOrReplaceTempView("tmp")
 
@@ -39,5 +36,7 @@ object Test {
       .start()
 
     query.awaitTermination()
+
+
   }
 }
