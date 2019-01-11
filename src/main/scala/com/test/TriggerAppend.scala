@@ -14,7 +14,7 @@ object TriggerAppend {
     val spark = SparkSession
       .builder()
       .master("local")
-      .appName("WordCountAppend")
+      .appName("TriggerAppend")
       .getOrCreate()
 
 
