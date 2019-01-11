@@ -1,6 +1,6 @@
 package com.test
 
-import java.sql.{Connection, DriverManager}
+import java.sql.Connection
 
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.{ForeachWriter, Row, SparkSession}
