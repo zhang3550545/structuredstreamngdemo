@@ -10,5 +10,9 @@
         <module name="structuredstreamingdemo" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="com.test" target="8" />
+      <module name="structuredstreamingdemo" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
